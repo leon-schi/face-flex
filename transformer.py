@@ -74,9 +74,9 @@ class FaceTransformer:
         face.rotate(angle)
         top, left, size = face.get_face_bounding_box()
         face.cut_to_square(top, left, size)
-        mask = face.get_mask()
-
         bounding_box = FaceBoundingBox(top, left, size, angle)
+        mask = face.get_morphing_mask(bounding_box.size)
+
         return AlignedFace(face, mask, bounding_box)
 
     def morph_image(self, aligned_face):
@@ -102,6 +102,10 @@ if __name__ == "__main__":
     modifier = Modifier(aligned_face.face, attribute='Smiling', i=5)
     modifier.addExpression(3)
     aligned_face.face = modifier.decode_face()
+
+    aligned_face.plot(plt)
+    plt.show()
+
     img = transformer.morph_image(aligned_face)
 
     image = Image.fromarray(np.uint8(img * 255))

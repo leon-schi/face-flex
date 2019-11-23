@@ -16,9 +16,10 @@ class FaceImage:
         self.landmarks = np.copy(landmarks)
         self.norm_image()
 
-    def plot(self, plt):
+    def plot(self, plt, show_landmarks=True):
         plt.imshow(self.image)
-        plt.scatter(*self.landmarks.T, marker='.', color='r')
+        if show_landmarks:
+            plt.scatter(*self.landmarks.T, marker='.', color='r')
 
     def copy(self):
         return FaceImage(np.copy(self.image), np.copy(self.landmarks))
@@ -112,7 +113,7 @@ class FaceImage:
         eyeline = np.flip(self.landmarks[17:27], axis=0) + np.array([0, -original_size*0.17])
         points = self.landmarks[:17].tolist() + eyeline.tolist()
         mask = rasterize_polygon(points, self.height(), self.width()) * 255
-        return ndimage.gaussian_filter(mask, 3) / 255
+        return ndimage.gaussian_filter(mask, 5) / 255
 
     def morph_with(self, image, original_size):
         mask = self.get_morphing_mask(original_size)
