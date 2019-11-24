@@ -50,11 +50,15 @@ Optionally, you can also plot the detected face and its landmarks by setting the
 
 The input image will be scanned for faces with a dlib face detector, and the found face will be analyzed with a shape predictor (also from dlib) that aligns 68 facial landmarks onto the face. This leads to a picture like this:
 
-![](./readme_images/landm.png)
+<p align="center">
+    <img src="./readme_images/landm.png" width="40%"/>
+</p>
 
 Afterwards the image will be aligned, i.e. we rotate it so that the eyes will form a horizontal line and we will scale it to a uniform size of 128x128 pixels around the face:
 
-![](./readme_images/aligned.png)
+<p align="center">
+    <img src="./readme_images/aligned.png" width="30%"/>
+</p>
 
 This aligned face can then be fed into the Variational Autoencoder, i.e. it will be encoded as a 500 elements vector that represents the face. This vector can be decoded again to obtain an approximate version of the face again.
 
@@ -65,9 +69,9 @@ Now, we have a modified latent vector that can be decoded by the VAE again to ob
 ![](./readme_images/encdec.png)
 
 This modified image is now scaled back to the original size and moved to its original location in the original image. We use the previously computed locations of the 68 facial landmarks to create a mask around the actual face:
-
-![](./readme_images/mask.png)
-
+<p align="center">
+    <img src="./readme_images/mask.png" width="80%"/>
+</p>
  We then keep only the pixels that are part of our face and morph them into the original image. This yields the final result:
 
 ![](./readme_images/final.bmp)
